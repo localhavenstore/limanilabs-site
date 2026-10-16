@@ -1,0 +1,20 @@
+{
+ "name": "Limani Labs",
+ "short_name": "Limani Labs",
+ "start_url": "/",
+ "display": "browser",
+ "background_color": "#0C1B34",
+ "theme_color": "#0C1B34",
+ "icons": [
+  {
+   "src": "/icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "/icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  }
+ ]
+}
