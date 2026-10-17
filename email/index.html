@@ -177,6 +177,10 @@ html:not(.js) #lh-form,html:not(.js) #lh-priv,html:not(.js) #lh-how,html:not(.js
 .rec label{display:flex;gap:10px;align-items:flex-start;margin-top:10px;min-height:44px;font-weight:600;cursor:pointer}
 .rec label input{width:22px;height:22px;flex:none;margin:2px 0 0;accent-color:var(--seaglass)}
 .rec .rec{margin:10px 0 0;background:var(--harbour-2)}
+/* hotfix v13g.1 (17 Oct 2026 00:5x, owner's iPhone): the 2026 skin flips --harbour with the theme (near-white in dark) but the box's text
+   colours did not follow - unreadable in dark, low labels in light. The box now keeps ONE fixed dark look in both themes. */
+@media screen{.rec{background:#16171B;border-color:#33333A;color:#F3F3F0}.rec>b,.rec label{color:#F3F3F0}.rec dt{color:#B0B0B8}.rec code{color:#FFFFFF}
+.rec p{color:#B0B0B8}.rec a{color:#F3F3F0;text-decoration:underline}.rec .rec{background:#090A0B}.rec label input{accent-color:#F3F3F0}}
 .mailtxt{margin-top:6px}.mailtxt summary{cursor:pointer;color:var(--seaglass);min-height:44px;display:flex;align-items:center;font-size:.95rem}
 .mailtxt textarea{display:block;width:100%;min-height:9em;background:var(--harbour);color:#fff;border:1px solid var(--light-off);border-radius:10px;padding:10px;font:inherit;font-size:.9rem;margin-bottom:8px}
 #lh-print{display:none}
