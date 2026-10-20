@@ -1,0 +1,25 @@
+# Limani Labs
+
+> Limani Labs builds websites and protects the email of businesses in Cyprus, based in Nicosia. Contact: info@limanilabs.com. Greek and English.
+
+Facts in short (prices exclude VAT):
+
+- Email protection: Introductory price €49 for the first 5 clients, then €79 per domain
+- Website check: Free
+- Basic accessibility report: from €149
+- Yearly care: €99 a year
+- Websites: €390 for one page · €690 for up to 5 pages · Hosting and maintenance from €20 / month
+- Free email check on the website: free, no sign-up
+
+## Key pages
+
+- [Facts and short answers (English)](https://limanilabs.com/facts/): who we are, area, services, prices, contact, five short answers
+- [Τα βασικά και σύντομες απαντήσεις (Ελληνικά)](https://limanilabs.com/el/facts/): the same facts in Greek
+- [Free email check](https://limanilabs.com/email/): does your domain ask email services to block fake email in your name
+- [Services and prices](https://limanilabs.com/services/): email protection, website check, accessibility report, yearly care, websites
+- [Websites](https://limanilabs.com/websites/): prices, what is included, demo sites
+- [About](https://limanilabs.com/about/): the company and the founder
+
+## Optional
+
+- [The new IBAN scam](https://limanilabs.com/new-iban-scam/): how invoice fraud by email works and how to protect a business
