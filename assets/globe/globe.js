@@ -216,11 +216,15 @@ if (stage && canvas) {
     requestAnimationFrame(() => canvas.classList.add("ready"));
     addEventListener("pagehide", () => globe && globe.destroy());
   } catch (e) { showStill(); } };
-  // the live globe starts only after the browser reports its first paint (or after "load"), so it never holds up the first view
+  // the live globe starts after the browser reports its first paint (or after "load" where paint timing is missing), so it never holds up
+  // the first view; a 4 s fail-safe starts it anyway if no paint entry ever arrives
   const afterFirstPaint = cb => {
     let done = false; const go = () => { if (!done) { done = true; setTimeout(cb, 0); } };
     const paints = (window.PerformanceObserver && PerformanceObserver.supportedEntryTypes) || [];
-    if (paints.includes("paint")) new PerformanceObserver((list, obs) => { obs.disconnect(); go(); }).observe({ type: "paint", buffered: true });
+    if (paints.includes("paint")) {
+      new PerformanceObserver((list, obs) => { obs.disconnect(); go(); }).observe({ type: "paint", buffered: true });
+      setTimeout(go, 4000);  // fail-safe: if no paint entry ever arrives, the globe still starts
+    }
     else { const late = () => requestAnimationFrame(go); if (document.readyState === "complete") late(); else addEventListener("load", late, { once: true }); }  // browsers without paint timing
   };
   if (reduce || softGL()) showStill(); else afterFirstPaint(start);
