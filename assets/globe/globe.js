@@ -47,6 +47,18 @@ if (stage && canvas) {
   };
   let tz = ""; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
   let you = TZ[tz] || null;
+  /* Cyprus check (owner bug 26 Oct): Windows "(UTC+02:00) Athens, Bucharest" (GTB) - the zone most Cyprus PCs use - is reported as
+     Europe/Bucharest (or Europe/Athens), and E. Europe as Europe/Chisinau. Those zones decide by the browser languages only:
+     a Cyprus locale (xx-CY) or Greek/Turkish -> Nicosia; Romanian -> Bucharest; Greek under Athens -> Athens; else unknown (no You). */
+  const SHARED = { "Europe/Bucharest": "ro", "Europe/Athens": "el", "Europe/Chisinau": "ro" };
+  if (tz in SHARED) {
+    let langs = []; try { langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""]).map(l => String(l).toLowerCase()); } catch (e) {}
+    const has = c => langs.some(l => l === c || l.startsWith(c + "-"));
+    const cy = langs.some(l => /-cy$/.test(l));
+    if (cy || (tz !== "Europe/Athens" && (has("el") || has("tr")))) you = TZ["Asia/Nicosia"];
+    else if (has(SHARED[tz]) && TZ[tz]) you = TZ[tz];
+    else { you = null; tz = ""; }
+  }
   if (!you && tz) { const off = -new Date().getTimezoneOffset() / 60; you = [30, clamp(off * 15, -170, 170), ""]; }
   const NIC = [35.1856, 33.3823];
   const km = (a, b) => { const R = 6371, dl = (b[0] - a[0]) * DEG, dn = (b[1] - a[1]) * DEG;
