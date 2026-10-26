@@ -1,7 +1,9 @@
 /* Limani Labs home: the globe hero (owner-approved design v14, 25 Oct 2026). Own code; uses cobe 0.6.3 + phenomenon 1.6.0 (MIT, see /licenses/). */
 import createGlobe from "./cobe.js";
 
-const $ = id => document.getElementById(id);
+// 26 Oct 2026 (owner photo 11:20: blank globe when the HTML and this file did not match): a missing element is replaced by a spare,
+// detached one, so a page without it still gets the globe (or its still picture) and never an empty hero
+const $ = id => document.getElementById(id) || Object.assign(document.createElement("div"), { id });
 const stage = $("gstage"), canvas = $("globe");
 if (stage && canvas) {
   const html = document.documentElement, EL = html.lang === "el";
