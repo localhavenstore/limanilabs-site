@@ -1,5 +1,4 @@
-/* Limani Labs home: the globe hero (owner-approved design v14, 25 Oct 2026). Own code; uses cobe 0.6.3 + phenomenon 1.6.0 (MIT, see /licenses/).
-   Where the visitor is comes from the browser's time zone only: nothing is sent anywhere, nothing is stored. */
+/* Limani Labs home: the globe hero (owner-approved design v14, 25 Oct 2026). Own code; uses cobe 0.6.3 + phenomenon 1.6.0 (MIT, see /licenses/). */
 import createGlobe from "./cobe.js";
 
 const $ = id => document.getElementById(id);
@@ -7,10 +6,10 @@ const stage = $("gstage"), canvas = $("globe");
 if (stage && canvas) {
   const html = document.documentElement, EL = html.lang === "el";
   const T = EL ? {
-    coords: "Λευκωσία · 35.17° Β · 33.36° Α", near: " · είστε κοντά μας", km: n => ` · ${n} km από εσάς`, you: "Εσείς", here: "εδώ",
+    coords: "Λευκωσία · 35.17° Β · 33.36° Α",
     cities: [["Λευκωσία", "Η βάση μας"], ["Αμμόχωστος", "περιοχή"], ["Λάρνακα", ""], ["Λεμεσός", ""], ["Πάφος", ""]]
   } : {
-    coords: "Nicosia · 35.17° N · 33.36° E", near: " · you are close by", km: n => ` · ${n} km from you`, you: "You", here: "right here",
+    coords: "Nicosia · 35.17° N · 33.36° E",
     cities: [["Nicosia", "Our base"], ["Famagusta", "area"], ["Larnaca", ""], ["Limassol", ""], ["Paphos", ""]]
   };
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -21,52 +20,6 @@ if (stage && canvas) {
   const wrap = a => { a = (a + Math.PI) % (2 * Math.PI); return a < 0 ? a + Math.PI : a - Math.PI; };
   const toAngles = (lat, lng) => [Math.PI - (lng * DEG - Math.PI / 2), lat * DEG];      // cobe: these angles put lat/lng in the centre
 
-  /* where is the visitor? the time zone only */
-  const TZ = {
-    "Asia/Nicosia": [35.17, 33.36, "Nicosia"], "Asia/Famagusta": [35.12, 33.94, "Famagusta"], "Europe/Athens": [37.98, 23.73, "Athens"],
-    "Europe/London": [51.51, -0.13, "London"], "Europe/Dublin": [53.35, -6.26, "Dublin"], "Europe/Lisbon": [38.72, -9.14, "Lisbon"],
-    "Europe/Madrid": [40.42, -3.70, "Madrid"], "Europe/Paris": [48.86, 2.35, "Paris"], "Europe/Brussels": [50.85, 4.35, "Brussels"],
-    "Europe/Amsterdam": [52.37, 4.90, "Amsterdam"], "Europe/Berlin": [52.52, 13.40, "Berlin"], "Europe/Zurich": [47.38, 8.54, "Zurich"],
-    "Europe/Rome": [41.90, 12.50, "Rome"], "Europe/Vienna": [48.21, 16.37, "Vienna"], "Europe/Prague": [50.08, 14.44, "Prague"],
-    "Europe/Warsaw": [52.23, 21.01, "Warsaw"], "Europe/Budapest": [47.50, 19.04, "Budapest"], "Europe/Stockholm": [59.33, 18.07, "Stockholm"],
-    "Europe/Oslo": [59.91, 10.75, "Oslo"], "Europe/Copenhagen": [55.68, 12.57, "Copenhagen"], "Europe/Helsinki": [60.17, 24.94, "Helsinki"],
-    "Europe/Bucharest": [44.43, 26.10, "Bucharest"], "Europe/Sofia": [42.70, 23.32, "Sofia"], "Europe/Belgrade": [44.79, 20.45, "Belgrade"],
-    "Europe/Istanbul": [41.01, 28.98, "Istanbul"], "Europe/Kiev": [50.45, 30.52, "Kyiv"], "Europe/Kyiv": [50.45, 30.52, "Kyiv"],
-    "Europe/Moscow": [55.76, 37.62, "Moscow"], "Asia/Beirut": [33.89, 35.50, "Beirut"], "Asia/Jerusalem": [31.77, 35.21, "Jerusalem"],
-    "Asia/Tel_Aviv": [32.09, 34.78, "Tel Aviv"], "Asia/Amman": [31.95, 35.93, "Amman"], "Africa/Cairo": [30.04, 31.24, "Cairo"],
-    "Asia/Dubai": [25.20, 55.27, "Dubai"], "Asia/Riyadh": [24.71, 46.68, "Riyadh"], "Asia/Qatar": [25.29, 51.53, "Doha"],
-    "Asia/Tehran": [35.69, 51.39, "Tehran"], "Asia/Karachi": [24.86, 67.01, "Karachi"], "Asia/Kolkata": [22.57, 88.36, "Kolkata"],
-    "Asia/Calcutta": [22.57, 88.36, "Kolkata"], "Asia/Bangkok": [13.76, 100.50, "Bangkok"], "Asia/Singapore": [1.35, 103.82, "Singapore"],
-    "Asia/Hong_Kong": [22.32, 114.17, "Hong Kong"], "Asia/Shanghai": [31.23, 121.47, "Shanghai"], "Asia/Tokyo": [35.68, 139.69, "Tokyo"],
-    "Asia/Seoul": [37.57, 126.98, "Seoul"], "Australia/Sydney": [-33.87, 151.21, "Sydney"], "Australia/Melbourne": [-37.81, 144.96, "Melbourne"],
-    "Pacific/Auckland": [-36.85, 174.76, "Auckland"], "Africa/Johannesburg": [-26.20, 28.05, "Johannesburg"], "Africa/Lagos": [6.52, 3.38, "Lagos"],
-    "Africa/Nairobi": [-1.29, 36.82, "Nairobi"], "America/New_York": [40.71, -74.01, "New York"], "America/Toronto": [43.65, -79.38, "Toronto"],
-    "America/Chicago": [41.88, -87.63, "Chicago"], "America/Denver": [39.74, -104.99, "Denver"], "America/Los_Angeles": [34.05, -118.24, "Los Angeles"],
-    "America/Vancouver": [49.28, -123.12, "Vancouver"], "America/Mexico_City": [19.43, -99.13, "Mexico City"], "America/Sao_Paulo": [-23.55, -46.63, "São Paulo"],
-    "America/Argentina/Buenos_Aires": [-34.60, -58.38, "Buenos Aires"], "America/Bogota": [4.71, -74.07, "Bogotá"], "America/Santiago": [-33.45, -70.67, "Santiago"]
-  };
-  let tz = ""; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
-  let you = TZ[tz] || null;
-  /* Cyprus check (owner bug 26 Oct): Windows "(UTC+02:00) Athens, Bucharest" (GTB) - the zone most Cyprus PCs use - is reported as
-     Europe/Bucharest (or Europe/Athens), and E. Europe as Europe/Chisinau. Those zones decide by the browser languages only:
-     a Cyprus locale (xx-CY) or Greek/Turkish -> Nicosia; Romanian -> Bucharest; Greek under Athens -> Athens; else unknown (no You). */
-  const SHARED = { "Europe/Bucharest": "ro", "Europe/Athens": "el", "Europe/Chisinau": "ro" };
-  if (tz in SHARED) {
-    let langs = []; try { langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""]).map(l => String(l).toLowerCase()); } catch (e) {}
-    const has = c => langs.some(l => l === c || l.startsWith(c + "-"));
-    const cy = langs.some(l => /-cy$/.test(l));
-    if (cy || (tz !== "Europe/Athens" && (has("el") || has("tr")))) you = TZ["Asia/Nicosia"];
-    else if (has(SHARED[tz]) && TZ[tz]) you = TZ[tz];
-    else { you = null; tz = ""; }
-  }
-  if (!you && tz) { const off = -new Date().getTimezoneOffset() / 60; you = [30, clamp(off * 15, -170, 170), ""]; }
-  const NIC = [35.1856, 33.3823];
-  const km = (a, b) => { const R = 6371, dl = (b[0] - a[0]) * DEG, dn = (b[1] - a[1]) * DEG;
-    const h = Math.sin(dl / 2) ** 2 + Math.cos(a[0] * DEG) * Math.cos(b[0] * DEG) * Math.sin(dn / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(h)); };
-  const youKm = you ? km(you, NIC) : null;
-  const youLocal = youKm !== null && youKm < 160;
-  const ct = $("gcoordsText");
-  if (ct && youKm !== null) ct.textContent = T.coords + (youLocal ? T.near : T.km(Math.round(youKm).toLocaleString(EL ? "el" : "en")));
 
   /* Cyprus cities: an exact dot + a label with a leader line when zoomed in */
   const CITIES = [
@@ -75,7 +28,6 @@ if (stage && canvas) {
     { loc: [34.7720, 32.4297], size: .02, off: [-96, 26] }
   ];
   const markers = CITIES.map(c => ({ location: c.loc, size: c.size }));
-  if (you && !youLocal) markers.push({ location: [you[0], you[1]], size: .03 });
   const pins = $("gpins"), svg = $("glines"), NS = "http://www.w3.org/2000/svg";
   CITIES.forEach((c, i) => {
     const el = document.createElement("div"); el.className = "gpin";
@@ -85,12 +37,10 @@ if (stage && canvas) {
     const ln = document.createElementNS(NS, "line"); ln.setAttribute("class", "gline"); ln.style.opacity = 0; svg.appendChild(ln); c.line = ln;
     const dot = document.createElementNS(NS, "circle"); dot.setAttribute("class", "gdot"); dot.setAttribute("r", i === 0 ? "5" : "3.5"); dot.style.opacity = 0; svg.appendChild(dot); c.dot = dot;
   });
-  const youRing = $("youRing"), youLabel = $("youLabel");
-  youLabel.textContent = T.you; if (youLocal || (you && you[2])) { const s = document.createElement("span"); s.textContent = " · " + (youLocal ? T.here : you[2]); youLabel.appendChild(s); }
 
   /* camera */
   const [cyPhi, cyTheta] = toAngles(35.0, 33.2);
-  const startA = you && !youLocal ? toAngles(you[0], you[1]) : [cyPhi - 1.6, 0.3];
+  const startA = [cyPhi - 1.6, 0.3];
   let phi = startA[0], theta = clamp(startA[1], -0.9, 0.9);
   let vPhi = 0, vTheta = 0, dragging = false, lastX = 0, lastY = 0, lastMove = 0, idleSince = performance.now();
   const t0 = performance.now();
@@ -215,12 +165,6 @@ if (stage && canvas) {
         });
         const mk = 1 - smooth(.4, .6, prog);              // the globe's own copper dots grow huge when zoomed: they fade, the exact dots take over
         state.markers = markers.map((m, i) => ({ location: m.location, size: i < CITIES.length ? m.size * mk : m.size }));
-        if (you) {
-          const [x, y, z] = project(you[0], you[1], showPh, showTh, cx, cy, Rcss);
-          const o = z > .05 && t > .8 ? 1 : 0;
-          youRing.style.transform = `translate(${x}px,${y}px)`; youRing.style.opacity = o;
-          youLabel.style.transform = `translate(${x + 14}px,${y}px) translateY(-50%)`; youLabel.style.opacity = youLocal && showCities > 0 ? 0 : o;
-        }
         return state;
       }
     });
