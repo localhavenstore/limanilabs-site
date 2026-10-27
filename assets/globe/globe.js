@@ -29,7 +29,8 @@ if (stage && canvas) {
     { loc: [34.9003, 33.6232], size: .022, off: [78, 52] }, { loc: [34.6786, 33.0413], size: .022, off: [-6, 78] },
     { loc: [34.7720, 32.4297], size: .02, off: [-96, 26] }
   ];
-  const markers = CITIES.map(c => ({ location: c.loc, size: c.size }));
+  // option B (26 Oct): cobe draws no city markers (it can only place them on its map dots); the page draws them at the exact spot
+  const markers = CITIES.map(c => ({ location: c.loc, size: 0 }));
   const pins = $("gpins"), svg = $("glines"), NS = "http://www.w3.org/2000/svg";
   CITIES.forEach((c, i) => {
     const el = document.createElement("div"); el.className = "gpin";
@@ -155,7 +156,8 @@ if (stage && canvas) {
         zoomText.classList.toggle("on", prog > .7); scrim.classList.toggle("on", prog > .7);
         dimEl.style.opacity = smooth(.15, .8, prog);
         const showCities = smooth(.66, .82, prog);
-        CITIES.forEach(c => {
+        const mk = 1 - smooth(.4, .6, prog);              // where cobe's copper dots used to be large (hero), the page dot takes their size
+        CITIES.forEach((c, i) => {
           const [x, y, z] = project(c.loc[0], c.loc[1], showPh, showTh, cx, cy, Rcss);
           const near = mouse && z > 0 && Math.hypot(mouse[0] - x, mouse[1] - y) < 26 ? 1 : 0;
           const ox = showCities > 0 ? c.off[0] : 0, oy = showCities > 0 ? c.off[1] : -22;
@@ -163,10 +165,10 @@ if (stage && canvas) {
           c.el.style.opacity = z > 0 ? Math.max(showCities, near) : 0;
           c.line.setAttribute("x1", x); c.line.setAttribute("y1", y); c.line.setAttribute("x2", x + ox * .72); c.line.setAttribute("y2", y + oy * .72);
           c.line.style.opacity = showCities > 0 && z > 0 ? showCities : 0;
-          c.dot.setAttribute("cx", x); c.dot.setAttribute("cy", y); c.dot.style.opacity = z > 0 ? smooth(.4, .6, prog) : 0;
+          c.dot.setAttribute("cx", x); c.dot.setAttribute("cy", y); c.dot.style.opacity = z > 0 ? 1 : 0;
+          c.dot.setAttribute("r", Math.max(i === 0 ? 5 : 3.5, .5 * c.size * Rcss * mk).toFixed(1));
         });
-        const mk = 1 - smooth(.4, .6, prog);              // the globe's own copper dots grow huge when zoomed: they fade, the exact dots take over
-        state.markers = markers.map((m, i) => ({ location: m.location, size: i < CITIES.length ? m.size * mk : m.size }));
+        state.markers = markers;                          // option B: no cobe city markers at any zoom
         return state;
       }
     });
