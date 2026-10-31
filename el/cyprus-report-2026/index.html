@@ -44,7 +44,7 @@ details.fold{border-top:1px solid var(--line);border-bottom:1px solid var(--line
 details.fold>summary{cursor:pointer;font-weight:600;padding:12px 0;min-height:44px;list-style:none;display:flex;gap:10px;align-items:center}
 details.fold>summary::-webkit-details-marker{display:none}details.fold>summary::before{content:"\25B8";color:var(--deep-sea);flex:none}details.fold[open]>summary::before{content:"\25BE"}
 details.fold>:last-child{margin-bottom:16px}
-footer.ftr{padding:30px 0 40px;margin-top:40px;color:var(--mute);font-size:.9rem;border-top:1px solid var(--line)}.bottom{overflow-wrap:anywhere}
+footer.ftr{padding:30px 0 40px;margin-top:40px;color:var(--mute);font-size:.9rem;border-top:1px solid var(--line)}.bottom,.fcopy{overflow-wrap:anywhere}.fcopy{margin-top:4px}html:not(.js)[lang="el"] .fcopy [data-lang="en"],html:not(.js)[lang="en"] .fcopy [data-lang="el"]{display:none}
 .fnav{display:flex;flex-wrap:wrap;gap:4px 22px;margin:0 0 14px;padding:0;list-style:none}.fnav a{color:var(--ink);font-weight:600;text-decoration:none;min-height:44px;display:inline-flex;align-items:center}.fnav a:hover{text-decoration:underline}
 .ico{width:44px;height:44px;flex:none;color:var(--deep-sea)}.ico.on-navy{color:var(--seaglass)}
 .page h1{font-weight:800;font-size:clamp(2rem,5.6vw,3.1rem);line-height:1.08;letter-spacing:-.02em;margin:8px 0 14px;max-width:20ch;text-wrap:balance}
@@ -100,7 +100,7 @@ header.top .mnav nav{position:absolute;left:0;right:0;top:100%;background:var(--
 @media (min-width:820px){.mnav{display:none}}
 @media (max-width:350px){header.top .brand span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
 @media print{.mnav{display:none!important}}
-::selection{background:color-mix(in srgb,var(--accent) 35%,transparent);color:var(--ink)}
+@supports (background:color-mix(in srgb,red,red)){::selection{background:color-mix(in srgb,var(--accent) 35%,transparent);color:var(--ink)}}
 :root[data-theme]{caret-color:var(--accent);accent-color:var(--accent);scrollbar-color:var(--line) var(--bg)}
 @media (max-width:600px){footer.ftr .fnav{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}}
 @media print{:root[data-theme]{--harbour:#000000!important;--deep-sea:#B42410!important;--seaglass:#000000!important;--bg:#FFFFFF!important;--bg2:#FFFFFF!important;--card:#FFFFFF!important;--ink:#000000!important;--mute:#333333!important;--line:#BBBBBB!important;--accent:#B42410!important;--accent-ink:#B42410!important;color-scheme:light}:root[data-theme] body{background:#FFFFFF!important;color:#000000!important}}
@@ -169,7 +169,7 @@ html.js .cr-sep{display:none}
 <p class="note" style="margin-top:24px">The report was made by Limani Labs, an independent email security service in Cyprus. We offer a paid fix of email settings - we say so, so that you know who is writing. The <a href="../cyprus-check/">check for your own domain</a> is free. The per-domain results are kept privately for up to 90 days, for questions about the method, and are then deleted. Questions or objections: info@limanilabs.com</p>
 </section>
 </div></div></main>
-<footer class="ftr"><div class="wrap"><ul class="fnav"><li><a href="../about/" data-keep-lang><span data-lang="el">Σχετικά</span><span data-lang="en" lang="en">About</span></a></li><li><a href="../privacy/" data-keep-lang><span data-lang="el">Απόρρητο</span><span data-lang="en" lang="en">Privacy</span></a></li></ul><div class="bottom">Limani Labs · Andreas Economou · Λευκωσία / Nicosia, Cyprus · info@limanilabs.com</div></div></footer><script>(function(){var r=document.documentElement,E=document.getElementById("ec-el"),N=document.getElementById("ec-en");if(!E||!N)return;
+<footer class="ftr"><div class="wrap"><ul class="fnav"><li><a href="../about/" data-keep-lang><span data-lang="el">Σχετικά</span><span data-lang="en" lang="en">About</span></a></li><li><a href="../privacy/" data-keep-lang><span data-lang="el">Απόρρητο</span><span data-lang="en" lang="en">Privacy</span></a></li></ul><div class="bottom">Limani Labs · Andreas Economou · Λευκωσία / Nicosia, Cyprus · info@limanilabs.com</div><div class="fcopy"><span data-lang="el">© 2026 Limani Labs. Με επιφύλαξη παντός δικαιώματος.</span><span data-lang="en" lang="en">© 2026 Limani Labs. All rights reserved.</span></div></div></footer><script>(function(){var r=document.documentElement,E=document.getElementById("ec-el"),N=document.getElementById("ec-en");if(!E||!N)return;
 function links(l){Array.prototype.forEach.call(document.querySelectorAll("a[data-keep-lang]"),function(a){var p=a.getAttribute("href").split("#");if(p.length>1&&p[1]!=="en"&&p[1]!=="el")return;a.setAttribute("href",l==="en"?p[0]+"#en":p[0])})}
 function set(l){r.setAttribute("lang",l);E.setAttribute("aria-pressed",l==="el");N.setAttribute("aria-pressed",l==="en");links(l)}
 E.onclick=function(){set("el")};N.onclick=function(){set("en")};
