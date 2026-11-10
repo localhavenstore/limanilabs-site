@@ -1,0 +1,17 @@
+Third-party texts and values quoted on limanilabs.com
+
+1. EU allergen names
+Where: demo/qr-menu/ (the allergen names and the allergen filter of the menu demo).
+What: allergen names from the list of 14 allergens in Annex II of Regulation (EU) No 1169/2011 on the provision of food information to consumers.
+Source: EUR-Lex.
+
+2. Email providers' SPF include names
+Where: email/ and el/email/ (the email check pages).
+What: the email check suggests an SPF record for four mail services. Each record is the SPF version tag, the service's include name, and an ending. The include names are the providers':
+- "include:_spf.google.com" (Google Workspace). Source: https://support.google.com/a/answer/10685031
+- "include:spf.protection.outlook.com" (Microsoft 365). Source: https://learn.microsoft.com/en-us/defender-office-365/email-authentication-spf-configure
+- "include:zohomail.com" (Zoho Mail). Source: https://www.zoho.com/mail/help/adminconsole/spf-configuration.html
+- "include:zohomail.eu" (Zoho Mail, EU data centre). Zoho's help page above does not show this name; the name zohomail.eu publishes its own SPF record in DNS.
+The ending "~all" is our own choice for every suggested record; it is not quoted from the providers, whose pages may show another ending.
+
+These parts are not covered by the copyright notice in /LICENSE; they keep their own terms.

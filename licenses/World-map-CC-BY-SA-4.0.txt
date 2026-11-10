@@ -1,0 +1,10 @@
+World map - credit and licence
+
+The world-map texture inside assets/globe/cobe.js and the two globe pictures assets/globe/still-dark.jpg and
+assets/globe/still-light.jpg use the map "World map blank without borders" by Crates, Wikimedia Commons:
+https://commons.wikimedia.org/wiki/File:World_map_blank_without_borders.svg
+Licence: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0),
+https://creativecommons.org/licenses/by-sa/4.0/
+
+The two globe pictures (still-dark.jpg, still-light.jpg) are adaptations of that map. They are shared under the same
+licence, CC BY-SA 4.0 - not under the "All rights reserved" notice of this website.
